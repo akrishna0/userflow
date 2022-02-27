@@ -4,6 +4,10 @@ const morgan = require('morgan');
 const app = express();
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload')
+const connectWithDatabase = require('./config/db');
+
+//database connection
+connectWithDatabase();
 
 // regular middlewares
 app.use(express.json());
@@ -14,5 +18,8 @@ app.use(cookieParser());
 app.use(fileUpload());
 //morgan middleware
 app.use(morgan("tiny"));
+
+
+
 
 module.exports = app;
