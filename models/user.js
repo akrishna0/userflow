@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -45,4 +46,18 @@ const userSchema = new mongoose.Schema({
 
 })
 
+//encrypting Password
+userSchema.pre('save', async function(next){
+    //this is to handle encryption when the password is modified like only when creating and forgot password
+    if(!this.isModified('password')){
+        return next();
+    }
+    this.password = await bcrypt.hash(this.password,10);
+})
+
+//validating the password
+userSchema.methods.isPasswordValidated = async function(sentPassword){
+//isPasswordValidated can be named anything it's the name of the method created to handle validation
+    return await bcrypt.compare(sentPassword, this.password)
+}
 module.exports = mongoose.model('User', userSchema);
