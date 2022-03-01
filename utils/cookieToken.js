@@ -1,5 +1,6 @@
 const cookieToken = (user,res)=>{
-    const token = user.getJWTToken();
+    console.log("USER : ",user);
+    const token = user.getJwtToken();
 
     const options = {
         expires: new Date(

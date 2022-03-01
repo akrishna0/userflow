@@ -4,11 +4,8 @@ const morgan = require('morgan');
 const app = express();
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload')
-const connectWithDatabase = require('./config/db');
-const user = require('./routes/user');
 
-//database connection
-connectWithDatabase();
+const user = require('./routes/user');
 
 // regular middlewares
 app.use(express.json());
@@ -16,7 +13,10 @@ app.use(express.urlencoded({extended: true}));
 
 // cookies and fileupload
 app.use(cookieParser());
-app.use(fileUpload());
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}));
 
 //morgan middleware
 app.use(morgan("tiny"));
