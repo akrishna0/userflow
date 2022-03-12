@@ -40,3 +40,26 @@ exports.signup = BigPromise(async(req, res, next)=>{
   cookieToken(user,res);
 })
 
+exports.login = BigPromise(async(req, res, next)=>{
+    const {email, password} = req.body;
+
+    if(!email || !password){
+        return next(new CustomError('Please enter email and password both', 400));
+    }
+
+    const user = await User.findOne({email}).select("+password");
+
+    if(!user){
+        return next(new CustomError('This email is not registered to us ',400));
+    }
+
+    const isPasswordCorrect = await user.isPasswordValidated(password);
+
+    if(!isPasswordCorrect){
+        return next(new CustomError('Password and email is not matching ', 400));
+    }
+
+    //send token to user
+    cookieToken(user, res);
+    
+});

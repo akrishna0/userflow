@@ -63,7 +63,7 @@ userSchema.methods.isPasswordValidated = async function(sentPassword){
 //isPasswordValidated can be named anything it's the name of the method created to handle validation
     return await bcrypt.compare(sentPassword, this.password)
 }
-
+    
 //creating jwt token
 userSchema.methods.getJwtToken = function(){
     return jwt.sign(
