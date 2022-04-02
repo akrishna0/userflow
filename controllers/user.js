@@ -39,7 +39,7 @@ exports.signup = BigPromise(async(req, res, next)=>{
     });
 
   cookieToken(user,res);
-})
+});
 
 exports.login = BigPromise(async(req, res, next)=>{
     const {email, password} = req.body;
@@ -75,7 +75,7 @@ exports.logout = BigPromise(async(req,res, next)=>{
         success: true,
         message: "User Successfully logged out"
     });
-})
+});
 
 exports.forgotPassword = BigPromise(async(req, res, next)=>{
     const {email} = req.body;
@@ -115,7 +115,7 @@ exports.forgotPassword = BigPromise(async(req, res, next)=>{
         return next(new CustomError(error.message, 500))
 
     }
-})
+});
 
 exports.resetPassword = BigPromise(async(req, res, next)=>{
     const token = req.params.token;
@@ -145,4 +145,13 @@ exports.resetPassword = BigPromise(async(req, res, next)=>{
     await user.save();
 
     cookieToken(user, res);
-})
+});
+
+exports.getLoggedInUserDetails = BigPromise(async (req, res, next)=>{
+    const user = await User.findById(req.user.id);
+
+    res.status(200).json({
+        success: true,
+        user
+    });
+});
