@@ -8,7 +8,8 @@ const {
     forgotPassword, 
     resetPassword,
     getLoggedInUserDetails,
-    changePassword
+    changePassword,
+    updateUserDetails
     } = require('../controllers/user');
 const { route } = require('express/lib/application');
 
@@ -20,5 +21,6 @@ router.route('/password/reset/:token').post(resetPassword);
 
 router.route('/userdashboard').get(isLoggedIn, getLoggedInUserDetails);
 router.route('/password/update').post(isLoggedIn, changePassword);
+router.route('/userdashboard/update').post(isLoggedIn, updateUserDetails);
 
 module.exports = router;
