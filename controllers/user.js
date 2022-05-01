@@ -262,6 +262,25 @@ exports.adminUpdateOneUserDetails = BigPromise(async(req, res, next)=>{
     });
 });
 
+exports.adminDeleteOneUser = BigPromise(async (req, res, next)=>{
+    const user = await User.findById(req.params.id);
+    
+    if(!user){
+        return next (new CustomError('NO Such user present', 401));
+    }
+
+    const imageId = user.photo.id;
+
+    await cloudinary.v2.uploader.destroy(imageId);
+
+    await user.remove();
+
+    res.status(200).json({
+        success:true
+    });
+    
+});
+
 //manager controllers
 exports.managerAllUsers = BigPromise(async (req, res, next)=>{
 

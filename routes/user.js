@@ -13,7 +13,8 @@ const {
     adminAllUsers,
     managerAllUsers,
     adminGetOneUser,
-    adminUpdateOneUserDetails
+    adminUpdateOneUserDetails,
+    adminDeleteOneUser
     } = require('../controllers/user');
 const { route } = require('express/lib/application');
 
@@ -31,7 +32,8 @@ router.route('/userdashboard/update').post(isLoggedIn, updateUserDetails);
 router.route('/admin/users').get(isLoggedIn, customRole('admin'), adminAllUsers);
 router.route('/admin/user/:id')
       .get(isLoggedIn, customRole('admin'), adminGetOneUser)
-      .put(isLoggedIn, customRole('admin'), adminUpdateOneUserDetails);
+      .put(isLoggedIn, customRole('admin'), adminUpdateOneUserDetails)
+      .delete(isLoggedIn, customRole('admin'), adminDeleteOneUser);
 
 // manager routes
 router.route('/manager/users').get(isLoggedIn,customRole('manager'),managerAllUsers);
