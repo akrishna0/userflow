@@ -12,7 +12,8 @@ const {
     updateUserDetails,
     adminAllUsers,
     managerAllUsers,
-    adminGetOneUser
+    adminGetOneUser,
+    adminUpdateOneUserDetails
     } = require('../controllers/user');
 const { route } = require('express/lib/application');
 
@@ -28,7 +29,9 @@ router.route('/userdashboard/update').post(isLoggedIn, updateUserDetails);
 
 //admin routes
 router.route('/admin/users').get(isLoggedIn, customRole('admin'), adminAllUsers);
-router.route('/admin/user/:id').get(isLoggedIn, customRole('admin'), adminGetOneUser);
+router.route('/admin/user/:id')
+      .get(isLoggedIn, customRole('admin'), adminGetOneUser)
+      .put(isLoggedIn, customRole('admin'), adminUpdateOneUserDetails);
 
 // manager routes
 router.route('/manager/users').get(isLoggedIn,customRole('manager'),managerAllUsers);

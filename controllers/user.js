@@ -240,6 +240,28 @@ exports.adminGetOneUser = BigPromise(async(req, res, next)=>{
     });
 });
 
+exports.adminUpdateOneUserDetails = BigPromise(async(req, res, next)=>{
+    const newData ={
+        name: req.body.name,
+        email: req.body.name,
+        role: req.body.name
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.params.id,
+        newData,
+        {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false
+        }
+    );
+
+    res.status(200).json({
+        success: true
+    });
+});
+
 //manager controllers
 exports.managerAllUsers = BigPromise(async (req, res, next)=>{
 
